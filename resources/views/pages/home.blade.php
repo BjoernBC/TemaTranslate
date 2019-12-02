@@ -19,8 +19,8 @@ Dashboard
                         <h5 class="card-title">Translations queued</h5>
                         <p class="card-text text-center">{ Number of translations }</p>
                         @if (Auth::user() && Auth::user()->is_admin)
-                            <a href="{{ route('import') }}" class="btn btn-success float-right ml-3">Export</a>
-                            <a href="{{ route('export') }}" class="btn btn-success float-right">Import</a>
+                            <a href="{{-- {{ route('import') }} --}}" class="btn btn-success float-right ml-3">Export</a>
+                            <a href="{{-- {{ route('export') }} --}}" class="btn btn-success float-right">Import</a>
                         @else
                             <a href="{{ route('translate') }}" class="btn btn-success float-right">Start</a>
                         @endif

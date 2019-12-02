@@ -14,13 +14,10 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 Auth::routes();
 
-// Special restrictions - only admins can access these
 Route::get(
-    '/register',
+    '/users/add',
     [
         'as' => 'register',
         'uses' => 'Auth\RegisterController@showRegistrationForm'
@@ -28,33 +25,37 @@ Route::get(
 )->middleware('is_admin');
 
 Route::post(
-    '/register',
+    '/users/add',
     [
-        'as' => '',
+        'as' => 'user.store',
         'uses' => 'Auth\RegisterController@register'
     ]
 )->middleware('is_admin');
 
 Route::get('/users', 'userController@index')
-    ->name('users')
+    ->name('user.index')
     ->middleware('auth', 'is_admin');
 
-Route::get('/locale', 'LocaleController@index')
-    ->name('locale')
+Route::get('/locales', 'LocaleController@index')
+    ->name('locale.index')
     ->middleware('auth', 'is_admin');
 
-Route::post('/locale', 'LocaleController@store')
-    ->name('locale')
+Route::post('/locales', 'LocaleController@store')
+    ->name('locale.store')
+    ->middleware('auth', 'is_admin');
+
+Route::get('/products', 'ProductController@index')
+    ->name('product.index')
     ->middleware('auth', 'is_admin');
 
 Route::post('/products', 'ProductController@store')
-    ->name('import')
+    ->name('product.store')
     ->middleware('auth', 'is_admin');
 
-Route::get('/products', 'ProductController@export')
-    ->name('export')
+Route::get('/products/{product}', 'ProductController@show')
+    ->name('product.show')
     ->middleware('auth', 'is_admin');
 
 Route::get('/translate', 'TranslationController@index')
-    ->name('translate')
+    ->name('translate.index')
     ->middleware('auth');

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Auth\validator;
 use App\Locale;
 use App\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -12,6 +15,6 @@ class UserController extends Controller
     {
         $users = User::All();
         $locales = Locale::All();
-        return view('pages.user', compact('users', 'locales'));
+        return view('pages.user.index', compact('users', 'locales'));
     }
 }

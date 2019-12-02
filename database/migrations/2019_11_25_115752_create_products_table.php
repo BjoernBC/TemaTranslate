@@ -15,6 +15,9 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->boolean('is_priority')->default(0);
+            $table->integer('translation_level')->default(1);
+            $table->integer('translated_by')->nullable();
             $table->timestamps();
         });
     }

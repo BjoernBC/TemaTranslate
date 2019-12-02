@@ -21,26 +21,44 @@
                     <a class="nav-link disabled">{{  strtoupper(Auth::user()->country_code) }}</a>
                 </li>
                 <span class="nav-link disabled">|</span>
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::path() === '/' ? 'active' : '' }}"
+                        href="{{ route('home') }}">
+                        Dashboard
+                    </a>
+                </li>
+                <span class="nav-link disabled">|</span>
                 @if (Auth::user() && Auth::user()->is_admin)
                     <li class="nav-item">
-                        {{-- TODO add locale route --}}
-                        <a class="nav-link" href="{{ route('locale') }}">Locales</a>
-                    </li>
-                    <span class="nav-link disabled">|</span>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('users') }}">Translators</a>
-                    </li>
-                    <span class="nav-link disabled">|</span>
-                    <li class="nav-item">
                         {{-- TODO add settings route --}}
-                        <a class="nav-link" href="#">Settings</a>
+                        <a class="nav-link {{ Request::path() === 'settings' ? 'active' : '' }}"
+                            href="#">
+                            Settings
+                        </a>
+                    </li>
+                    <span class="nav-link disabled">|</span>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::path() === 'locales' ? 'active' : '' }}"
+                            href="{{ route('locale.index') }}">
+                            Locales
+                        </a>
+                    </li>
+                    <span class="nav-link disabled">|</span>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::path() === 'users' ? 'active' : '' }}"
+                            href="{{ route('user.index') }}">
+                            Translators
+                        </a>
+                    </li>
+                    <span class="nav-link disabled">|</span>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::path() === 'products' ? 'active' : '' }}"
+                            href="{{ route('product.index') }}">
+                            Products
+                        </a>
                     </li>
                     <span class="nav-link disabled">|</span>
                 @endif
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">Dashboard</a>
-                </li>
-                <span class="nav-link disabled">|</span>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('logout') }}"
                        onclick="event.preventDefault();

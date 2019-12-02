@@ -24,8 +24,11 @@ Translators
                         <div class="card-body">
                             <div class="container">
                                 <div class="row border-bottom">
-                                    <div class="col-sm-8">
-                                        <h5 class="card-title">Leaderboard</h5>
+                                    <div class="col-sm-6">
+                                        <p class="card-title">Leaderboard</p>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <p class="card-title text-center">Locale</p>
                                     </div>
                                     <div class="col-sm-2 text-center">
                                         <p>Total</p>
