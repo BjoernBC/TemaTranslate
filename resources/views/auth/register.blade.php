@@ -68,7 +68,7 @@
                                 <select id="country" class="form-control" name="country" required>
                                     <option value="">Please select a translator language</option>
                                     @foreach ($locales as $locale)
-                                        <option value="{{ $locale->country_code }}">
+                                        <option {{ old('country') == $locale->country_code ? 'selected' : '' }}  value="{{ $locale->country_code }}">
                                             {{ $locale->name }}
                                         </option>
                                     @endforeach

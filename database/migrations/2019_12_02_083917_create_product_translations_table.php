@@ -15,12 +15,12 @@ class CreateProductTranslationsTable extends Migration
     {
         Schema::create('product_translations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('product_id');
-            $table->string('country_code')->unique();
+            $table->string('product_sku');
+            $table->string('country_code')->default('dk');
             $table->string('title');
             $table->text('description');
-            $table->string('description_list');
-            $table->string('package_contains');
+            $table->string('description_list')->nullable();
+            $table->string('package_contains')->nullable();
             $table->timestamps();
         });
     }

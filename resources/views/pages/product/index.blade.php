@@ -12,7 +12,7 @@ Products
                 <div class="container">
                     <div class="row border-bottom">
                         <div class="col-sm-1">
-                            <p class="card-title">Id</p>
+                            <p class="card-title">SKU</p>
                         </div>
                         <div class="col-sm-1">
                             <p class="card-title">Title</p>
@@ -34,25 +34,28 @@ Products
                         </div>
                     </div>
                     @php
-                        $numItems = count($products);
+                        $productCount = count($products);
                         $i = 0;
+                        // dd($products);
                     @endphp
                     @foreach ($products as $product)
-                        <div class="row py-2 {{ ++$i === $numItems ? '' : 'border-bottom' }}">
+                    {{-- {{ dd($product->translations) }} --}}
+                        <div class="row small py-2 {{ ++$i === $productCount ? '' : 'border-bottom' }}">
                             <div class="col-sm-1">
-                                <p>{{  $product->id }}</p>
+                                <p class="d-inline align-middle">{{  $product->sku }}</p>
                             </div>
                             <div class="col-sm-1">
-                                <p>{{  $product->translations[0]->title }}</p>
+                                <p class="d-inline align-middle">{{  $product->translations[0]->title }}</p>
                             </div>
                             <div class="col-sm-3">
-                                <p>{{  $product->translations[0]->description }}</p>
+                                <p class="d-inline align-middle">{{ $product->translations[0]->description }}</p>
                             </div>
                             <div class="col-sm-2">
-                                <p>{{ $product->is_priority ? 'Yes' : 'No' }}</p>
+                                {{-- {{ dd($product->is_priority) }} --}}
+                                <p class="d-inline align-middle">{{ $product->is_priority ? 'Yes' : 'No' }}</p>
                             </div>
                             <div class="col-sm-2">
-                                <p>
+                                <p class="d-inline align-middle">
                                     @switch($product->translation_level)
                                         @case(1)
                                             Light
@@ -67,20 +70,20 @@ Products
                                 </p>
                             </div>
                             <div class="col-sm-2">
-                                <p>
+                                <p class="d-inline align-middle">
                                     @php
-                                        $numItems = count($product->translations);
-                                        $i = 0;
+                                        $translationCount = count($product->translations);
+                                        $j = 0;
                                     @endphp
                                     @foreach ($product->translations as $translation)
                                         {{ ucfirst($translation->country_code) }}
-                                        {{ ++$i === $numItems ? '' : '-' }}
+                                        {{ ++$j === $translationCount ? '' : '-' }}
                                     @endforeach
                                 </p>
                             </div>
                             <div class="col-sm-1">
-                                <a href="products/{{  $product->id }}">
-                                    <p class="card-title">Show</p>
+                                <a href="{{ route('product.index') }}/{{ $product->id }}">
+                                    <p class="card-title d-inline align-middle">Show</p>
                                 </a>
                             </div>
                         </div>

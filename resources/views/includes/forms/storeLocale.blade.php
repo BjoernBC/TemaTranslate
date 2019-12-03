@@ -9,7 +9,7 @@
                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
 
                 <div class="col-md-6">
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Denmark">
+                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autofocus placeholder="Denmark">
 
                     @error('name')
                         <span class="invalid-feedback" role="alert">
@@ -23,7 +23,7 @@
                 <label for="country_code" class="col-md-4 col-form-label text-md-right">{{ __('Country code') }}</label>
 
                 <div class="col-md-6">
-                    <input id="country_code" type="text" class="form-control @error('country_code') is-invalid @enderror" name="country_code" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="DK">
+                    <input id="country_code" type="text" class="form-control @error('country_code') is-invalid @enderror" name="country_code" value="{{ old('country_code') }}" required autofocus placeholder="DK">
 
                     @error('country_code')
                         <span class="invalid-feedback" role="alert">
