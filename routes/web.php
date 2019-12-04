@@ -14,6 +14,7 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
+// Users
 Auth::routes();
 
 Route::get(
@@ -36,6 +37,7 @@ Route::get('/users', 'userController@index')
     ->name('user.index')
     ->middleware('auth', 'is_admin');
 
+// Locales
 Route::get('/locales', 'LocaleController@index')
     ->name('locale.index')
     ->middleware('auth', 'is_admin');
@@ -44,18 +46,32 @@ Route::post('/locales', 'LocaleController@store')
     ->name('locale.store')
     ->middleware('auth', 'is_admin');
 
+// Products
 Route::get('/products', 'ProductController@index')
     ->name('product.index')
+    ->middleware('auth');
+
+Route::get('/products/add', 'ProductController@create')
+    ->name('product.create')
     ->middleware('auth', 'is_admin');
 
 Route::post('/products', 'ProductController@store')
     ->name('product.store')
-    ->middleware('auth', 'is_admin');
+    ->middleware('auth');
 
 Route::get('/products/{product}', 'ProductController@show')
     ->name('product.show')
-    ->middleware('auth', 'is_admin');
+    ->middleware('auth');
 
+// Translations
 Route::get('/translate', 'TranslationController@index')
-    ->name('translate.index')
+    ->name('product.translate')
+    ->middleware('auth');
+
+// Route::post('/translate', 'TranslationController@edit')
+//     ->name('product.translate')
+//     ->middleware('auth');
+
+Route::post('/translate', 'TranslationController@store')
+    ->name('product.translate')
     ->middleware('auth');

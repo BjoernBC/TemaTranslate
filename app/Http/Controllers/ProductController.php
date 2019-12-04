@@ -11,9 +11,16 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::paginate(10);
         $locales = Locale::all();
         return view('pages.product.index', compact('products', 'locales'));
+    }
+
+    public function create()
+    {
+        $products = Product::all();
+        $locales = Locale::all();
+        return view('pages.product.create', compact('products', 'locales'));
     }
 
     public function store(Request $request)
@@ -70,6 +77,11 @@ class ProductController extends Controller
     {
         $products = Product::all();
         // Do something to make a JSON from this
+        return;
+    }
+
+    public function update()
+    {
         return;
     }
 }

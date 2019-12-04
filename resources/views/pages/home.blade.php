@@ -17,13 +17,27 @@ Dashboard
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">Translations queued</h5>
-                        <p class="card-text text-center">{ Number of translations }</p>
+                        <p class="card-text text-center lead">
+                            @php
+                                $products = App\Product::with('translations')->get()->pluck('translations')->unique();
+                                $count = count($products);
+                            @endphp
+                            @foreach ($products as $product)
+                                @foreach ($product as $translation)
+                                    @if ($translation->country_code == Auth::User()->country_code)
+                                        @php
+                                            $count--;
+                                        @endphp
+                                    @endif
+                                @endforeach
+                            @endforeach
+                            {{ $count }}
+                        </p>
                         @if (Auth::user() && Auth::user()->is_admin)
                             <a href="{{-- {{ route('import') }} --}}" class="btn btn-success float-right ml-3">Export</a>
-                            <a href="{{-- {{ route('export') }} --}}" class="btn btn-success float-right">Import</a>
-                        @else
-                            <a href="{{ route('translate') }}" class="btn btn-success float-right">Start</a>
+                            <a href="{{-- {{ route('export') }} --}}" class="btn btn-success float-right ml-3">Import</a>
                         @endif
+                        <a href="{{ route('product.translate') }}" class="btn btn-success float-right">Start</a>
                     </div>
                 </div>
             </div>
@@ -40,7 +54,7 @@ Dashboard
                     <div class="card-body">
                         <h5 class="card-title">Translations checks queued</h5>
                         <p class="card-text text-center">{ Number of translations checks }</p>
-                        <a href="#" class="btn btn-success float-right">Start</a>
+                        <a href="{{-- {{ route('translate.control') }} --}}" class="btn btn-success float-right">Start</a>
                     </div>
                 </div>
             </div>
@@ -51,8 +65,11 @@ Dashboard
                     <div class="card-body">
                         <div class="container">
                             <div class="row border-bottom">
-                                <div class="col-sm-8">
+                                <div class="col-sm-6">
                                     <h5 class="card-title">Leaderboard</h5>
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <p>Country</p>
                                 </div>
                                 <div class="col-sm-2 text-center">
                                     <p>Total</p>

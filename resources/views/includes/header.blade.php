@@ -51,14 +51,14 @@
                         </a>
                     </li>
                     <span class="nav-link disabled">|</span>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::path() === 'products' ? 'active' : '' }}"
-                            href="{{ route('product.index') }}">
-                            Products
-                        </a>
-                    </li>
-                    <span class="nav-link disabled">|</span>
                 @endif
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::path() === 'products' ? 'active' : '' }}"
+                        href="{{ route('product.index') }}">
+                        Products
+                    </a>
+                </li>
+                <span class="nav-link disabled">|</span>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('logout') }}"
                        onclick="event.preventDefault();

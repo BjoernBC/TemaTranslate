@@ -5,7 +5,17 @@ Products
 @endsection
 
 @section('content')
+<div class="row">
+    @if (Auth::user() && Auth::user()->is_admin)
+        <a href="{{ route('product.create') }}" class="nav-link">Add a new product</a>
+        <a href="{{-- {{ route('product.create') }} --}}" class="nav-link">Import products</a>
+        <a href="{{-- {{ route('product.create') }} --}}" class="nav-link">Export products</a>
+    @endif
+</div>
 <div class="row justify-content-center">
+    <div class="row">
+        {{ $products->links() }}
+    </div>
     <div class="col-lg-12 pb-4">
         <div class="card">
             <div class="card-body">
@@ -92,8 +102,8 @@ Products
             </div>
         </div>
     </div>
-    <div class="col-lg-8">
-        @include('includes.forms.storeProduct')
+    <div class="row">
+        {{ $products->links() }}
     </div>
 </div>
 @endsection
