@@ -10,20 +10,27 @@
         {{-- {{ $products->links() }} --}}
     </div>
     <div class="col-lg-12 pb-4">
-        <form id="create_translation" method="POST" action="{{ route('product.translate') }}">
-            @csrf
-            @php
-                // dd($product->translations)
-            @endphp
+        @php
+            // $prioList = $products->sortByDesc('is_priority');
+            // dd($products);
+            $translated = false;
+        @endphp
+        @foreach ($products as $product)
             @foreach ($product->translations as $translation)
-                @if ($translation->country_code == 'dk')
-                    {{-- expr --}}
-
+                @if ($translation->country_code == Auth::User()->country_code)
+                    @php
+                        $translated = true;
+                    @endphp
+                @endif
+            @endforeach
+            {{-- @if ($translated === false ) --}}
+                <form id="create_translation" method="POST" action="{{ route('product.translate') }}">
+                    @csrf
 
                     {{-- Hidden fields --}}
-                    <input type="hidden" name="user_lang" value="{{ Auth::User()->country_code }}">
-                    <input type="hidden" name="email" value="{{ Auth::User()->email }}">
-                    <input type="hidden" name="product_sku" value="{{ $translation->product_sku }}">
+                    <input type="hidden" name="country_code" value="{{ Auth::User()->country_code }}">
+                    <input type="hidden" name="updated_by" value="{{ Auth::User()->email }}">
+                    <input type="hidden" name="product_sku" value="{{ $product->sku }}">
 
                     <div class="row d-flex justify-content-between">
                         <div>
@@ -37,7 +44,7 @@
                     <div class="row form-field d-flex justify-content-between mb-3">
                         <div class="col-lg-6">
                             <p class="font-weight-bold pt-2 my-0">Title</p>
-                            <p>{{ $translation->title }}</p>
+                            <p>{{ $product->translations[0]->title }}</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-between">
@@ -60,7 +67,7 @@
                     <div class="row form-field d-flex justify-content-between mb-3">
                         <div class="col-lg-6">
                             <p class="font-weight-bold pt-2 my-0">Package Contains</p>
-                            <p>{{ $translation->package_contains }}</p>
+                            <p>{{ $product->translations[0]->package_contains }}</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-between">
@@ -83,7 +90,7 @@
                     <div class="row form-field d-flex justify-content-between mb-3">
                         <div class="col-lg-6">
                             <p class="font-weight-bold pt-2 my-0">Description List</p>
-                            <p>{{ $translation->description_list }}</p>
+                            <p>{{ $product->translations[0]->description_list }}</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-between">
@@ -106,7 +113,7 @@
                     <div class="row form-field d-flex justify-content-between mb-3">
                         <div class="col-lg-6">
                             <p class="font-weight-bold pt-2 my-0">Description</p>
-                            <p>{{ $translation->description }}</p>
+                            <p>{{ $product->translations[0]->description }}</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-between">
@@ -125,9 +132,11 @@
                             </div>
                         </div>
                     </div>
-                @endif
-            @endforeach
-        </form>
+                </form>
+            {{-- @else --}}
+                {{-- <p class="text-center">No translations queued!</p> --}}
+            {{-- @endif --}}
+        @endforeach
     </div>
 </div>
 @endsection

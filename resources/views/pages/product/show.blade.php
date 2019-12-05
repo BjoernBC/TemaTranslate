@@ -21,7 +21,7 @@
                         <div class="col-sm-1">
                             <p class="card-title">Locale</p>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                             <p class="card-title">Title</p>
                         </div>
                         <div class="col-sm-3">
@@ -30,9 +30,12 @@
                         <div class="col-sm-2">
                             <p class="card-title">List</p>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <p class="card-title">Contains</p>
                         </div>
+                        <div class="col-sm-2">
+                                <p class="card-title">User</p>
+                            </div>
                         <div class="col-sm-1">
                             <p class="card-title">Actions</p>
                         </div>
@@ -53,7 +56,7 @@
                             <div class="col-sm-1">
                                 <p class="d-inline align-middle">{{  $translation->country_code }}</p>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-1">
                                 <p class="d-inline align-middle">{{  $translation->title }}</p>
                             </div>
                             <div class="col-sm-3">
@@ -62,8 +65,11 @@
                             <div class="col-sm-2">
                                 <p class="d-inline align-middle">{{ $translation->description_list }}</p>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <p class="d-inline align-middle">{{ $translation->package_contains }}</p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="d-inline align-middle">{{ $translation->translated_by }}</p>
                             </div>
                             <div class="col-sm-1">
                                 <a href="#" class="">Edit</a>

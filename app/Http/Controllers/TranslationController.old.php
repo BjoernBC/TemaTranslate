@@ -5,25 +5,12 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\ProductTranslation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class TranslationController extends Controller
 {
     public function index()
     {
-        // $product = Product::firstOrFail();
-        $sql = 'SELECT * ';
-        $sql .= 'FROM product_translations AS p ';
-        // $sql .= 'FROM products AS p ';
-        // $sql .= 'FULL OUTER JOIN product_translations AS t ';
-        // $sql .= 'ON p.sku = t.product.sku ';
-        $sql .= 'WHERE :user_lang ';
-        $sql .= 'NOT IN (SELECT t.country_code FROM product_translations AS t) ';
-        // dd($sql);
-        // $product = DB::select($sql, ['user_lang' => Auth::user()->country_code]);
-        $product = Product::firstOrFail();
-
+        $products = Product::all();
         $maxTitle = 32;
         $maxContains = 64;
         $maxDescList = 128;
@@ -31,7 +18,7 @@ class TranslationController extends Controller
         return view(
             'pages.translate.index',
             [
-                'product' => $product,
+                'products' => $products,
                 'maxTitle' => $maxTitle,
                 'maxContains' => $maxContains,
                 'maxDescList' => $maxDescList,
@@ -55,8 +42,7 @@ class TranslationController extends Controller
         $request->validate(
             [
                 'product_sku' => 'required',
-                'user_lang' => 'required',
-                'email' => 'required',
+                'country_code' => 'required',
                 'title' => "required|max:{$maxTitle}",
                 'package_contains' => "max:{$maxContains}",
                 'description_list' => "max:{$maxDescList}",
@@ -68,12 +54,11 @@ class TranslationController extends Controller
         $productTranslation = new ProductTranslation(
             [
                 'product_sku' => $request['product_sku'],
-                'country_code' => $request['user_lang'],
+                'country_code' => $request['country_code'],
                 'title' => $request['title'],
                 'description' => $request['description'],
                 'description_list' => $request['description_list'],
                 'package_contains' => $request['package_contains'],
-                'translated_by' => $request['email'],
             ]
         );
         $product->translations()->save($productTranslation);

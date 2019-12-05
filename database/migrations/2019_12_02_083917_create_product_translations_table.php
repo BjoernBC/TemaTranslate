@@ -21,6 +21,7 @@ class CreateProductTranslationsTable extends Migration
             $table->text('description');
             $table->string('description_list')->nullable();
             $table->string('package_contains')->nullable();
+            $table->string('translated_by')->nullable();
             $table->timestamps();
         });
     }

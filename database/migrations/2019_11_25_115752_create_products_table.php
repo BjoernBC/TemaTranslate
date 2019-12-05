@@ -18,7 +18,6 @@ class CreateProductsTable extends Migration
             $table->string('sku')->unique();
             $table->boolean('is_priority')->default(0);
             $table->integer('translation_level')->default(1);
-            $table->integer('translated_by')->nullable();
             $table->timestamps();
         });
     }
