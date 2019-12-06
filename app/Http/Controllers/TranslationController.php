@@ -14,14 +14,15 @@ class TranslationController extends Controller
     {
         // $product = Product::firstOrFail();
         $sql = 'SELECT * ';
-        $sql .= 'FROM product_translations AS p ';
-        // $sql .= 'FROM products AS p ';
+        // $sql .= 'FROM product_translations AS p ';
+        $sql .= 'FROM products AS p ';
         // $sql .= 'FULL OUTER JOIN product_translations AS t ';
-        // $sql .= 'ON p.sku = t.product.sku ';
+        // $sql .= 'ON p.sku = t.product_sku ';
         $sql .= 'WHERE :user_lang ';
         $sql .= 'NOT IN (SELECT t.country_code FROM product_translations AS t) ';
+        $sql .= 'ORDER BY p.is_priority DESC';
         // dd($sql);
-        // $product = DB::select($sql, ['user_lang' => Auth::user()->country_code]);
+        $products = DB::select($sql, ['user_lang' => Auth::user()->country_code]);
         $product = Product::firstOrFail();
 
         $maxTitle = 32;
@@ -32,6 +33,7 @@ class TranslationController extends Controller
             'pages.translate.index',
             [
                 'product' => $product,
+                // 'products' => $products,
                 'maxTitle' => $maxTitle,
                 'maxContains' => $maxContains,
                 'maxDescList' => $maxDescList,

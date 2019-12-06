@@ -4,6 +4,14 @@
 {{-- Products --}}
 @endsection
 
+@section('scripts')
+<script src="{{ asset('js/mousetrap.min.js') }}"></script>
+<script src="{{ asset('js/browserHotkeys.js') }}"></script>
+<script src="{{ asset('js/charCount.js') }}"></script>
+<script src="{{ asset('js/autoFocus.js') }}"></script>
+<script src="{{ asset('js/translate.js') }}"></script>
+@endsection
+
 @section('content')
 <div class="row justify-content-center">
     <div class="{{-- d-none --}}">
@@ -13,31 +21,33 @@
         <form id="create_translation" method="POST" action="{{ route('product.translate') }}">
             @csrf
             @php
-                // dd($product->translations)
+                // dd(Auth::user()->country_code, $product)
             @endphp
-            @foreach ($product->translations as $translation)
-                @if ($translation->country_code == 'dk')
-                    {{-- expr --}}
-
+            {{-- @foreach ($products as $product) --}}
+                @php
+                    // dd($product->translations)
+                @endphp
+                {{-- @if ($product->translations->country_code == 'dk') --}}
 
                     {{-- Hidden fields --}}
                     <input type="hidden" name="user_lang" value="{{ Auth::User()->country_code }}">
                     <input type="hidden" name="email" value="{{ Auth::User()->email }}">
-                    <input type="hidden" name="product_sku" value="{{ $translation->product_sku }}">
+                    <input type="hidden" name="product_sku" value="{{ $product->sku }}">
+
 
                     <div class="row d-flex justify-content-between">
                         <div>
                             <img src="https://picsum.photos/250/250" class="rounded">
                         </div>
                         <div class="d-flex flex-column justify-content-start">
-                            <input class="btn btn-lg btn-block btn-success mb-2" type="submit" value="Save (ctrl+arrowDown)">
-                            <a href="" class="btn btn-lg btn-block btn-outline-danger">Skip (ctrl+arrowRight)</a>
+                            <input class="btn btn-lg btn-block btn-success mb-2" type="submit" value="Save (CTRL+S)" id="save">
+                            <a href="{{ route('product.translate') }}" class="btn btn-lg btn-block btn-outline-danger" id="skip">Skip (CTRL+K)</a>
                         </div>
                     </div>
                     <div class="row form-field d-flex justify-content-between mb-3">
                         <div class="col-lg-6">
                             <p class="font-weight-bold pt-2 my-0">Title</p>
-                            <p>{{ $translation->title }}</p>
+                            <p>{{ $product->translations[0]->title }}</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-between">
@@ -46,7 +56,7 @@
                             </div>
 
                             <div>
-                                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="title" autofocus placeholder="Product Title">
+                                <input id="title" type="text" class="form-control mousetrap @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="title" autofocus placeholder="Product Title">
 
                                 @error('title')
                                     <span class="invalid-feedback" role="alert">
@@ -60,7 +70,7 @@
                     <div class="row form-field d-flex justify-content-between mb-3">
                         <div class="col-lg-6">
                             <p class="font-weight-bold pt-2 my-0">Package Contains</p>
-                            <p>{{ $translation->package_contains }}</p>
+                            <p>{{ $product->translations[0]->package_contains }}</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-between">
@@ -69,7 +79,7 @@
                             </div>
 
                             <div>
-                                <input id="package_contains" type="text" class="form-control @error('package_contains') is-invalid @enderror" name="package_contains" value="{{ old('package_contains') }}" autocomplete="package_contains" placeholder="Package Contains">
+                                <input id="package_contains" type="text" class="form-control mousetrap @error('package_contains') is-invalid @enderror" name="package_contains" value="{{ old('package_contains') }}" autocomplete="package_contains" placeholder="Package Contains">
 
                                 @error('package_contains')
                                     <span class="invalid-feedback" role="alert">
@@ -83,7 +93,7 @@
                     <div class="row form-field d-flex justify-content-between mb-3">
                         <div class="col-lg-6">
                             <p class="font-weight-bold pt-2 my-0">Description List</p>
-                            <p>{{ $translation->description_list }}</p>
+                            <p>{{ $product->translations[0]->description_list }}</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-between">
@@ -92,7 +102,7 @@
                             </div>
 
                             <div>
-                                <input id="description_list" type="text" class="form-control @error('description_list') is-invalid @enderror" name="description_list" value="{{ old('description_list') }}" autocomplete="description_list" placeholder="Description List">
+                                <input id="description_list" type="text" class="form-control mousetrap @error('description_list') is-invalid @enderror" name="description_list" value="{{ old('description_list') }}" autocomplete="description_list" placeholder="Description List">
 
                                 @error('description_list')
                                     <span class="invalid-feedback" role="alert">
@@ -106,7 +116,7 @@
                     <div class="row form-field d-flex justify-content-between mb-3">
                         <div class="col-lg-6">
                             <p class="font-weight-bold pt-2 my-0">Description</p>
-                            <p>{{ $translation->description }}</p>
+                            <p>{{ $product->translations[0]->description }}</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-between">
@@ -115,7 +125,7 @@
                             </div>
 
                             <div>
-                                <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" required placeholder="Description" rows="6">{{ old('description') }}</textarea>
+                                <textarea id="description" class="form-control mousetrap @error('description') is-invalid @enderror" name="description" required placeholder="Description" rows="6">{{ old('description') }}</textarea>
 
                                 @error('description')
                                     <span class="invalid-feedback" role="alert">
@@ -125,8 +135,8 @@
                             </div>
                         </div>
                     </div>
-                @endif
-            @endforeach
+                {{-- @endif --}}
+            {{-- @endforeach --}}
         </form>
     </div>
 </div>
