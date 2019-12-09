@@ -4,16 +4,14 @@ function browserHotkeys() {
             if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)){
                 e.preventDefault();
             }
-            Mousetrap.bind(['command+s','ctrl+s'], function() {
-                console.log("'ctrl + s' - keystroke registered");
+            Mousetrap.bind('ctrl+s', function() {
                 $('#save').click();
             });
 
-            if(e.ctrlKey && e.keyCode == 'K'.charCodeAt(0)){
+            if(e.ctrlKey && e.keyCode == 'J'.charCodeAt(0)){
                 e.preventDefault();
             }
-            Mousetrap.bind(['command+k','ctrl+k'], function() {
-                console.log("'ctrl + k' - keystroke registered");
+            Mousetrap.bind('ctrl+j', function() {
                 $('#skip')[0].click();
             });
         }
