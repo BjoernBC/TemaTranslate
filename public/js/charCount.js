@@ -27,15 +27,9 @@ function charCount() {
 
         if (inputLength > counterMax ) {
             counter.css('color', 'red');
-            // var inputValue = input[0].value;
-            // // inputValue.substring(counterMax);
-            // var newInput = inputValue.substring(0, counterMax) + '<span color="red">' + inputValue.substring(counterMax) + '</span>';
-            // console.log(newInput);
-            // input.val(newInput);
         } else {
             counter.css('color', 'unset');
         }
-
     });
 }
 

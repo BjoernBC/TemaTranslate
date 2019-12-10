@@ -12,18 +12,43 @@ class TranslationController extends Controller
 {
     public function index()
     {
-        // $product = Product::firstOrFail();
-        $sql = 'SELECT * ';
-        // $sql .= 'FROM product_translations AS p ';
-        $sql .= 'FROM products AS p ';
-        // $sql .= 'FULL OUTER JOIN product_translations AS t ';
-        // $sql .= 'ON p.sku = t.product_sku ';
-        $sql .= 'WHERE :user_lang ';
-        $sql .= 'NOT IN (SELECT t.country_code FROM product_translations AS t) ';
-        $sql .= 'ORDER BY p.is_priority DESC';
+        // $sql = 'SELECT * ';
+        // // $sql .= 'FROM product_translations AS p ';
+        // $sql .= 'FROM products AS p ';
+        // // $sql .= 'FULL OUTER JOIN product_translations AS t ';
+        // // $sql .= 'ON p.sku = t.product_sku ';
+        // $sql .= 'WHERE :user_lang ';
+        // $sql .= 'NOT IN (SELECT t.country_code FROM product_translations AS t) ';
+        // $sql .= 'ORDER BY p.is_priority DESC';
+
+        // $sql = 'SELECT * FROM products AS p ';
+        // $sql .= 'WHERE t.country_code in (dk) ';
+        // $sql .= 'RIGHT JOIN product_translations AS t ON p.sku = t.product_sku';
+        // $sql .= 'UNION ALL ';
+        // $sql .= 'RIGHT JOIN product_translations AS t ON p.sku = t.product.sku ';
+        // $sql .= 'WHERE `se` ';
+        // $sql .= 'NOT IN (';
+        // $sql .= 'SELECT t.country_code ';
+        // $sql .= 'FROM product_translations AS t)';
+
+        $sql = "SELECT products.*, product_translations.* ";
+        $sql .= "FROM products ";
+        $sql .= "LEFT OUTER JOIN product_translations ";
+        $sql .= "ON products.sku = product_translations.product_sku ";
+        // $sql .= "WHERE country_code != :user_lang1 ";
+        $sql .= "WHERE :user_lang1 NOT IN (country_code) ";
+        $sql .= "UNION ";
+        $sql .= "SELECT products.*, product_translations.* ";
+        $sql .= "FROM products ";
+        $sql .= "RIGHT OUTER JOIN product_translations ";
+        $sql .= "ON products.sku = product_translations.product_sku ";
+        // $sql .= "WHERE country_code != :user_lang2";
+        $sql .= "WHERE :user_lang2 NOT IN (country_code)";
+
         // dd($sql);
-        $products = DB::select($sql, ['user_lang' => Auth::user()->country_code]);
-        $product = Product::firstOrFail();
+        $user_lang = Auth::user()->country_code;
+        $products = DB::select($sql, ['user_lang1' => $user_lang, 'user_lang2' => $user_lang]);
+        // $product = Product::firstOrFail();
 
         $maxTitle = 32;
         $maxContains = 64;
@@ -32,8 +57,8 @@ class TranslationController extends Controller
         return view(
             'pages.translate.index',
             [
-                'product' => $product,
-                // 'products' => $products,
+                // 'product' => $product,
+                'products' => $products,
                 'maxTitle' => $maxTitle,
                 'maxContains' => $maxContains,
                 'maxDescList' => $maxDescList,

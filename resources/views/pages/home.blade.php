@@ -18,26 +18,15 @@ Dashboard
                     <div class="card-body">
                         <h5 class="card-title">Translations queued</h5>
                         <p class="card-text text-center lead">
-                            @php
-                                $products = App\Product::with('translations')->get()->pluck('translations')->unique();
-                                $count = count($products);
-                            @endphp
-                            @foreach ($products as $product)
-                                @foreach ($product as $translation)
-                                    @if ($translation->country_code == Auth::User()->country_code)
-                                        @php
-                                            $count--;
-                                        @endphp
-                                    @endif
-                                @endforeach
-                            @endforeach
-                            {{ $count }}
+                            {{ count($products) }}
                         </p>
                         @if (Auth::user() && Auth::user()->is_admin)
                             <a href="{{-- {{ route('import') }} --}}" class="btn btn-success float-right ml-3">Export</a>
                             <a href="{{-- {{ route('export') }} --}}" class="btn btn-success float-right ml-3">Import</a>
                         @endif
-                        <a href="{{ route('product.translate') }}" class="btn btn-success float-right">Start</a>
+                        @if (count($products))
+                            <a href="{{ route('product.translate') }}" class="btn btn-success float-right">Start</a>
+                        @endif
                     </div>
                 </div>
             </div>

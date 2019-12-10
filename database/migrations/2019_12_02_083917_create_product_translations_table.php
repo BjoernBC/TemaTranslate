@@ -23,6 +23,9 @@ class CreateProductTranslationsTable extends Migration
             $table->string('package_contains')->nullable();
             $table->string('translated_by')->nullable();
             $table->timestamps();
+            $table->foreign('product_sku')
+                ->references('sku')->on('products')
+                ->onDelete('cascade');
         });
     }
 
