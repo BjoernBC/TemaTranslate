@@ -28,12 +28,12 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 @foreach (App\Locale::all() as $locale)
                                     @if ($locale->country_code == Auth::user()->country_code)
-                                        <option value="{{ $locale->country_code }}">{{ strtoupper($locale->country_code) }} - {{ $locale->name }}</option>
+                                        <option value="{{ $locale->country_code }}">{{ strtoupper($locale->country_code) }}</option>
                                     @endif
                                 @endforeach
                                 @foreach (App\Locale::all() as $locale)
                                     @if ($locale->country_code != Auth::user()->country_code)
-                                        <option value="{{ $locale->country_code }}">{{ strtoupper($locale->country_code) }} - {{ $locale->name }}</option>
+                                        <option value="{{ $locale->country_code }}">{{ strtoupper($locale->country_code) }}</option>
                                     @endif
                                 @endforeach
                             </div>

@@ -21,8 +21,8 @@ Dashboard
                             {{ count($products) }}
                         </p>
                         @if (Auth::user() && Auth::user()->is_admin)
-                            <a href="{{-- {{ route('import') }} --}}" class="btn btn-success float-right ml-3">Export</a>
-                            <a href="{{-- {{ route('export') }} --}}" class="btn btn-success float-right ml-3">Import</a>
+                            <a href="{{ route('export') }}" class="btn btn-success float-right ml-3">Export</a>
+                            <a href="{{ route('import') }}" class="btn btn-success float-right ml-3">Import</a>
                         @endif
                         @if (count($products))
                             <a href="{{ route('product.translate') }}" class="btn btn-success float-right">Start</a>

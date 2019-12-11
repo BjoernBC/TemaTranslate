@@ -8,8 +8,8 @@ Products
 <div class="row">
     @if (Auth::user() && Auth::user()->is_admin)
         <a href="{{ route('product.create') }}" class="nav-link">Add a new product</a>
-        <a href="{{-- {{ route('product.create') }} --}}" class="nav-link">Import products</a>
-        <a href="{{-- {{ route('product.create') }} --}}" class="nav-link">Export products</a>
+        <a href="{{ route('import') }}" class="nav-link">Import products</a>
+        <a href="{{ route('export') }}" class="nav-link">Export products</a>
     @endif
 </div>
 <div class="row justify-content-center">

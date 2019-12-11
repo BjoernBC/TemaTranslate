@@ -6,6 +6,7 @@ use App\Locale;
 use App\Product;
 use App\ProductTranslation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -73,15 +74,35 @@ class ProductController extends Controller
         ]);
     }
 
-    public function export()
-    {
-        $products = Product::all();
-        // Do something to make a JSON from this
-        return;
-    }
-
     public function update()
     {
         return;
+    }
+
+    public function export()
+    {
+        $translations = ProductTranslation::all();
+        $json = $translations->toJson(JSON_PRETTY_PRINT);
+        $filename = 'exports/'.'export_'.date('Y-m-d_G'.'꞉'.'i').'.json';
+        Storage::put($filename, $json);
+        return Storage::download($filename);
+    }
+
+    public function import()
+    {
+        return view('pages.product.import');
+    }
+
+    public function storeMany(Request $request)
+    {
+        $request->validate(
+            [
+                'import' => "required",
+            ]
+        );
+        // $request->import->store('json');
+        // dd($request);
+        return redirect('/');
+        ;
     }
 }

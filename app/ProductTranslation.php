@@ -9,6 +9,8 @@ class ProductTranslation extends Model
     //
     protected $guarded = ['id'];
     // protected $fillable = ['title'];
+    protected $hidden = ['translated_by', 'created_at', 'updated_at'];
+
     public function product()
     {
         return $this->belongsTo('App\Product');
