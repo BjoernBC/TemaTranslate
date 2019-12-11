@@ -17,4 +17,12 @@ class UserController extends Controller
         $locales = Locale::All();
         return view('pages.user.index', compact('users', 'locales'));
     }
+
+    public function setLocale(Request $request)
+    {
+        $user = Auth::user();
+        $user->country_code = $request->country_code;
+        $user->save();
+        return back();
+    }
 }

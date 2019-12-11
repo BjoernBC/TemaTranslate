@@ -36,6 +36,8 @@ Route::post(
 Route::get('/users', 'userController@index')
     ->name('user.index')
     ->middleware('auth', 'is_admin');
+Route::put('/', 'userController@setLocale')
+    ->name('user.setLocale');
 
 // Locales
 Route::get('/locales', 'LocaleController@index')

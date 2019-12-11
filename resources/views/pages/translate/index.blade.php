@@ -23,6 +23,7 @@
             @csrf
             @php
                 // dd(Auth::user()->country_code, $product)
+                // dd($products)
             @endphp
             @if (empty($products))
                 Theres nothin here

@@ -10,6 +10,7 @@
         <!-- Left Side Of Navbar -->
         <ul class="navbar-nav mr-auto">
         </ul>
+
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto align-items-end">
             @guest
@@ -17,9 +18,32 @@
                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                 </li>
             @else
-                <li class="nav-item">
-                    <a class="nav-link disabled">{{  strtoupper(Auth::user()->country_code) }}</a>
-                </li>
+                @if (Auth::user() && Auth::user()->is_admin)
+                    <form method="POST" action="{{ route('user.setLocale') }}">
+                        @method('PUT')
+                        @csrf
+
+                        <select name="country_code" class="btn dropdown-toggle" onchange="this.form.submit()">
+                            <a class="btn dropdown-toggle" href="#" role="button" id="dropDownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{  strtoupper(Auth::user()->country_code) }}</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                @foreach (App\Locale::all() as $locale)
+                                    @if ($locale->country_code == Auth::user()->country_code)
+                                        <option value="{{ $locale->country_code }}">{{ strtoupper($locale->country_code) }} - {{ $locale->name }}</option>
+                                    @endif
+                                @endforeach
+                                @foreach (App\Locale::all() as $locale)
+                                    @if ($locale->country_code != Auth::user()->country_code)
+                                        <option value="{{ $locale->country_code }}">{{ strtoupper($locale->country_code) }} - {{ $locale->name }}</option>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </select>
+                    </form>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link disabled">{{  strtoupper(Auth::user()->country_code) }}</a>
+                    </li>
+                @endif
                 <span class="nav-link disabled">|</span>
                 <li class="nav-item">
                     <a class="nav-link {{ Request::path() === '/' ? 'active' : '' }}"
