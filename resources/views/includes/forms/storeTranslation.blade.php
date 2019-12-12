@@ -1,3 +1,4 @@
+{{-- unused (?) --}}
 <div class="card">
     <div class="card-header">{{ __('Add product') }}</div>
 

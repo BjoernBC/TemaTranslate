@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Locale;
 use App\Product;
 use App\ProductTranslation;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -88,21 +90,21 @@ class ProductController extends Controller
         return Storage::download($filename);
     }
 
-    public function import()
-    {
-        return view('pages.product.import');
-    }
-
-    public function storeMany(Request $request)
+    public function import(Request $request)
     {
         $request->validate(
             [
                 'import' => "required",
             ]
         );
-        // $request->import->store('json');
-        // dd($request);
+
+        $file = $request->file('import');
+        $file->storeAs('imports', 'import-'.date('Y-m-d_G'.'꞉'.'i'));
+
+        // Read file
+        // Parse file
+        // Store products in db
+
         return redirect('/');
-        ;
     }
 }

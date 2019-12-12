@@ -65,12 +65,8 @@ Route::get('/products/export', 'ProductController@export')
     ->name('export')
     ->middleware('auth');
 
-Route::get('products/import', 'ProductController@import')
+Route::post('products/import', 'ProductController@import')
     ->name('import')
-    ->middleware('auth');
-
-Route::post('products/import', 'ProductController@storeMany')
-    ->name('product.storeMany')
     ->middleware('auth');
 
 Route::get('/products/{product}', 'ProductController@show')

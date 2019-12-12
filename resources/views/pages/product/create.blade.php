@@ -9,5 +9,8 @@ Products
     <div class="col-lg-8">
         @include('includes.forms.storeProduct')
     </div>
+    <div class="col-lg-4">
+        @include('includes.forms.importProducts')
+    </div>
 </div>
 @endsection
