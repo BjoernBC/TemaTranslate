@@ -103,6 +103,8 @@ class ProductController extends Controller
 
         function store($import)
         {
+            // Validation? Currently returns error to user
+            // if sku already exists in db
             $product = new Product(
                 [
                     'sku' => $import['product_sku'],
