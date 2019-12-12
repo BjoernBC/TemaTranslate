@@ -26,11 +26,11 @@
                 // dd($products)
             @endphp
             @if (empty($products))
-                Theres nothin here
+                Theres nothing here
             @else
                 {{-- @foreach ($products as $product) --}}
                     @php
-                        // dd($products)
+                        dd($products)
                     @endphp
 
                     {{-- Hidden fields --}}

@@ -40,8 +40,8 @@ class ProductController extends Controller
         // dd($request['is_priority']);
         $request->validate(
             [
+                'SKU' => 'required|unique:products,sku',
                 'title' => "required|max:{$maxTitle}",
-                'SKU' => 'required|unique:products,id',
                 'package_contains' => "max:{$maxContains}",
                 'description_list' => "max:{$maxDescList}",
                 'description' => "required|max:{$maxDesc}",
@@ -63,8 +63,8 @@ class ProductController extends Controller
                 'package_contains' => $request['package_contains'],
             ]
         );
-        $product->translations()->save($productTranslation);
         $product->save();
+        $product->translations()->save($productTranslation);
 
         return back();
     }
@@ -85,26 +85,72 @@ class ProductController extends Controller
     {
         $translations = ProductTranslation::all();
         $json = $translations->toJson(JSON_PRETTY_PRINT);
-        $filename = 'exports/'.'export_'.date('Y-m-d_G'.'꞉'.'i').'.json';
+        $fileName = 'exports/'.'export_'.date('Y-m-d_G'.'꞉'.'i').'.json';
         Storage::put($filename, $json);
-        return Storage::download($filename);
+        return Storage::download($fileName);
     }
 
     public function import(Request $request)
     {
         $request->validate(
             [
-                'import' => "required",
-            ]
+                'import' => "required|file|mimetypes:text/plain",
+            ],
+            [
+                'import.mimetypes' => 'File must be of type JSON',
+            ],
         );
 
+        function store($import)
+        {
+            $product = new Product(
+                [
+                    'sku' => $import['product_sku'],
+                    // 'is_priority' => $product['is_priority'],
+                    // 'translation_level' => $product['translation_level'],
+                ]
+            );
+            $productTranslation = new ProductTranslation(
+                [
+                    'country_code' => $import['country_code'],
+                    'title' => $import['title'],
+                    'description' => $import['description'],
+                    'description_list' => $import['description_list'],
+                    'package_contains' => $import['package_contains'],
+                ]
+            );
+            $product->save();
+            $product->translations()->save($productTranslation);
+            return;
+        }
+
         $file = $request->file('import');
-        $file->storeAs('imports', 'import-'.date('Y-m-d_G'.'꞉'.'i'));
+        $content = file_get_contents($file);
+        $json = json_decode($content, true);
+        foreach ($json as $import) {
+            store($import);
+        };
 
-        // Read file
-        // Parse file
-        // Store products in db
+        // TODO: Implement logic to determine file type
 
-        return redirect('/');
+        // function importJson($request)
+        // {
+        // }
+
+        // function importXML($request)
+        // {
+        // }
+
+        // switch ($request->fileType) {
+        // case '1':
+        //     importJson($request);
+        //     break;
+
+        // case '2':
+        //     importXML($request);
+        //     break;
+        // }
+
+        return redirect(route('product.index'));
     }
 }

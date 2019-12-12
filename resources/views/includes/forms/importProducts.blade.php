@@ -5,6 +5,22 @@
         <form method="POST" action="{{ route('import') }}" enctype="multipart/form-data">
             @csrf
 
+            {{-- <div class="form-group row">
+                <label for="fileType" class="col-md-4 col-form-label text-md-right">{{ __('File type') }}</label>
+
+                <div class="col-md-6">
+                    <select id="fileType" class="form-control" name="fileType" required>
+                        <option value="">File type</option>
+                        <option {{ old('fileType') == 1 ? 'selected' : '' }} value="1">
+                            JSON
+                        </option>
+                        <option {{ old('fileType') == 2 ? 'selected' : '' }} value="2">
+                            XML
+                        </option>
+                    </select>
+                </div>
+            </div> --}}
+
             <div class="form-group row">
                 <label for="import" class="col-md-4 col-form-label text-md-right">{{ __('Import file') }}</label>
 

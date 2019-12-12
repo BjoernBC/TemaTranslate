@@ -36,14 +36,14 @@ class TranslationController extends Controller
         $sql .= "LEFT OUTER JOIN product_translations ";
         $sql .= "ON products.sku = product_translations.product_sku ";
         // $sql .= "WHERE country_code != :user_lang1 ";
-        $sql .= "WHERE :user_lang1 NOT IN (SELECT DISTINCT country_code FROM product_translations) ";
+        $sql .= "WHERE :user_lang1 NOT IN (SELECT DISTINCT country_code FROM product_translations WHERE products.sku = product_translations.product_sku) ";
         $sql .= "UNION ";
         $sql .= "SELECT products.*, product_translations.* ";
         $sql .= "FROM products ";
         $sql .= "RIGHT OUTER JOIN product_translations ";
         $sql .= "ON products.sku = product_translations.product_sku ";
         // $sql .= "WHERE country_code != :user_lang2";
-        $sql .= "WHERE :user_lang2 NOT IN (SELECT DISTINCT country_code FROM product_translations)";
+        $sql .= "WHERE :user_lang2 NOT IN (SELECT DISTINCT country_code FROM product_translations WHERE products.sku = product_translations.product_sku)";
 
         // dd($sql);
         $user_lang = Auth::user()->country_code;
