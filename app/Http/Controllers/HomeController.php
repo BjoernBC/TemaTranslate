@@ -26,20 +26,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $sql = "SELECT products.*, product_translations.* ";
-        $sql .= "FROM products ";
-        $sql .= "LEFT OUTER JOIN product_translations ";
-        $sql .= "ON products.sku = product_translations.product_sku ";
-        $sql .= "WHERE country_code != :user_lang1 ";
-        $sql .= "UNION ";
-        $sql .= "SELECT products.*, product_translations.* ";
-        $sql .= "FROM products ";
-        $sql .= "RIGHT OUTER JOIN product_translations ";
-        $sql .= "ON products.sku = product_translations.product_sku ";
-        $sql .= "WHERE country_code != :user_lang2";
+        $sql = "select * from product_translations as a, product_translations as b ";
+        $sql .= "where a.country_code = 'dk' ";
+        $sql .= "and a.product_sku = b.product_sku ";
+        $sql .= "and not exists (select title from product_translations ";
+        $sql .=                 "where country_code = :user_lang ";
+        $sql .=                 "and product_sku = a.product_sku) ";
 
+        // dd($sql);
         $user_lang = Auth::user()->country_code;
-        $products = DB::select($sql, ['user_lang1' => $user_lang, 'user_lang2' => $user_lang]);
+        $products = DB::select($sql, ['user_lang' => $user_lang]);
 
         // Sort users by avg/translation time
         $users = User::All();

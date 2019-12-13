@@ -31,24 +31,42 @@ class TranslationController extends Controller
         // $sql .= 'SELECT t.country_code ';
         // $sql .= 'FROM product_translations AS t)';
 
-        $sql = "SELECT products.*, product_translations.* ";
-        $sql .= "FROM products ";
-        $sql .= "LEFT OUTER JOIN product_translations ";
-        $sql .= "ON products.sku = product_translations.product_sku ";
-        // $sql .= "WHERE country_code != :user_lang1 ";
-        $sql .= "WHERE :user_lang1 NOT IN (SELECT DISTINCT country_code FROM product_translations WHERE products.sku = product_translations.product_sku) ";
-        $sql .= "UNION ";
-        $sql .= "SELECT products.*, product_translations.* ";
-        $sql .= "FROM products ";
-        $sql .= "RIGHT OUTER JOIN product_translations ";
-        $sql .= "ON products.sku = product_translations.product_sku ";
-        // $sql .= "WHERE country_code != :user_lang2";
-        $sql .= "WHERE :user_lang2 NOT IN (SELECT DISTINCT country_code FROM product_translations WHERE products.sku = product_translations.product_sku)";
+        // $sql = "SELECT products.*, product_translations.* ";
+        // $sql .= "FROM products ";
+        // $sql .= "LEFT OUTER JOIN product_translations ";
+        // $sql .= "ON products.sku = product_translations.product_sku ";
+        // // $sql .= "WHERE country_code != :user_lang1 ";
+        // $sql .= "WHERE :user_lang1 NOT IN (SELECT DISTINCT country_code FROM product_translations WHERE products.sku = product_translations.product_sku) ";
+        // $sql .= "UNION ";
+        // $sql .= "SELECT products.*, product_translations.* ";
+        // $sql .= "FROM products ";
+        // $sql .= "RIGHT OUTER JOIN product_translations ";
+        // $sql .= "ON products.sku = product_translations.product_sku ";
+        // // $sql .= "WHERE country_code != :user_lang2";
+        // $sql .= "WHERE :user_lang2 NOT IN (SELECT DISTINCT country_code FROM product_translations WHERE products.sku = product_translations.product_sku)";
+
+
+        // select * from product_translations as a, product_translations as b
+        // where a.country_code = 'dk'
+        // and a.product_sku = b.product_sku
+        // and not exists (select title from product_translations
+        //                 where country_code = 'se' 
+        //                 and product_sku = a.product_sku)
+        // limit 1;
+
+
+        $sql = "select * from product_translations as a, product_translations as b ";
+        $sql .= "where a.country_code = 'dk' ";
+        $sql .= "and a.product_sku = b.product_sku ";
+        $sql .= "and not exists (select title from product_translations ";
+        $sql .=                 "where country_code = :user_lang ";
+        $sql .=                 "and product_sku = a.product_sku) ";
+        $sql .= "limit 1";
+
 
         // dd($sql);
         $user_lang = Auth::user()->country_code;
-        $products = DB::select($sql, ['user_lang1' => $user_lang, 'user_lang2' => $user_lang]);
-        // $product = Product::firstOrFail();
+        $products = DB::select($sql, ['user_lang' => $user_lang]);
 
         $maxTitle = 32;
         $maxContains = 64;
@@ -57,7 +75,6 @@ class TranslationController extends Controller
         return view(
             'pages.translate.index',
             [
-                // 'product' => $product,
                 'products' => $products,
                 'maxTitle' => $maxTitle,
                 'maxContains' => $maxContains,

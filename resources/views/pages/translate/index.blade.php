@@ -28,15 +28,12 @@
             @if (empty($products))
                 Theres nothing here
             @else
-                {{-- @foreach ($products as $product) --}}
-                    @php
-                        dd($products)
-                    @endphp
+                @foreach ($products as $product)
 
                     {{-- Hidden fields --}}
                     <input type="hidden" name="user_lang" value="{{ Auth::User()->country_code }}">
                     <input type="hidden" name="email" value="{{ Auth::User()->email }}">
-                    <input type="hidden" name="product_sku" value="{{ $products[0]->sku }}">
+                    <input type="hidden" name="product_sku" value="{{ $product->product_sku }}">
 
 
                     <div class="row d-flex justify-content-between">
@@ -51,7 +48,7 @@
                     <div class="row form-field d-flex justify-content-between mb-3">
                         <div class="col-lg-6">
                             <p class="font-weight-bold pt-2 my-0">Title</p>
-                            <p>{{ $products[0]->title }}</p>
+                            <p>{{ $product->title }}</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-between">
@@ -74,7 +71,7 @@
                     <div class="row form-field d-flex justify-content-between mb-3">
                         <div class="col-lg-6">
                             <p class="font-weight-bold pt-2 my-0">Package Contains</p>
-                            <p>{{ $products[0]->package_contains }}</p>
+                            <p>{{ $product->package_contains }}</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-between">
@@ -97,7 +94,7 @@
                     <div class="row form-field d-flex justify-content-between mb-3">
                         <div class="col-lg-6">
                             <p class="font-weight-bold pt-2 my-0">Description List</p>
-                            <p>{{ $products[0]->description_list }}</p>
+                            <p>{{ $product->description_list }}</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-between">
@@ -120,7 +117,7 @@
                     <div class="row form-field d-flex justify-content-between mb-3">
                         <div class="col-lg-6">
                             <p class="font-weight-bold pt-2 my-0">Description</p>
-                            <p>{{ $products[0]->description }}</p>
+                            <p>{{ $product->description }}</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-between">
@@ -139,7 +136,7 @@
                             </div>
                         </div>
                     </div>
-                {{-- @endforeach --}}
+                @endforeach
             @endif
         </form>
     </div>
