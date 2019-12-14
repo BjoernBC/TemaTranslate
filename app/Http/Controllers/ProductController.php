@@ -86,7 +86,7 @@ class ProductController extends Controller
         $translations = ProductTranslation::all();
         $json = $translations->toJson(JSON_PRETTY_PRINT);
         $fileName = 'exports/'.'export_'.date('Y-m-d_G'.'꞉'.'i').'.json';
-        Storage::put($filename, $json);
+        Storage::put($fileName, $json);
         return Storage::download($fileName);
     }
 

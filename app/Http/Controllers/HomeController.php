@@ -28,6 +28,7 @@ class HomeController extends Controller
     {
         $sql = "select * from product_translations as a, product_translations as b ";
         $sql .= "where a.country_code = 'dk' ";
+        $sql .= "and b.country_code = 'dk' ";
         $sql .= "and a.product_sku = b.product_sku ";
         $sql .= "and not exists (select title from product_translations ";
         $sql .=                 "where country_code = :user_lang ";

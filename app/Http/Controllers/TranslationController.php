@@ -50,18 +50,19 @@ class TranslationController extends Controller
         // where a.country_code = 'dk'
         // and a.product_sku = b.product_sku
         // and not exists (select title from product_translations
-        //                 where country_code = 'se' 
+        //                 where country_code = 'se'
         //                 and product_sku = a.product_sku)
         // limit 1;
 
 
         $sql = "select * from product_translations as a, product_translations as b ";
         $sql .= "where a.country_code = 'dk' ";
+        $sql .= "and b.country_code = 'dk' ";
         $sql .= "and a.product_sku = b.product_sku ";
         $sql .= "and not exists (select title from product_translations ";
         $sql .=                 "where country_code = :user_lang ";
         $sql .=                 "and product_sku = a.product_sku) ";
-        $sql .= "limit 1";
+        // $sql .= "limit 1";
 
 
         // dd($sql);
