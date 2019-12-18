@@ -26,15 +26,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $sql = "select * from product_translations as a, product_translations as b ";
+        $sql = "select * from product_translations as a ";
         $sql .= "where a.country_code = 'dk' ";
-        $sql .= "and b.country_code = 'dk' ";
-        $sql .= "and a.product_sku = b.product_sku ";
-        $sql .= "and not exists (select title from product_translations ";
-        $sql .=                 "where country_code = :user_lang ";
-        $sql .=                 "and product_sku = a.product_sku) ";
+        $sql .= "and not exists (select title from product_translations as b ";
+        $sql .=                 "where b.country_code = :user_lang ";
+        $sql .=                 "and b.product_sku = a.product_sku) ";
 
-        // dd($sql);
         $user_lang = Auth::user()->country_code;
         $products = DB::select($sql, ['user_lang' => $user_lang]);
 
