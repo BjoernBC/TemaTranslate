@@ -12,6 +12,9 @@ class TranslationController extends Controller
 {
     public function index()
     {
+        // In memoriam the many failed attemps to create the correct
+        // SQL to get the data from the database:
+
         // $sql = 'SELECT * ';
         // // $sql .= 'FROM product_translations AS p ';
         // $sql .= 'FROM products AS p ';
@@ -45,27 +48,29 @@ class TranslationController extends Controller
         // // $sql .= "WHERE country_code != :user_lang2";
         // $sql .= "WHERE :user_lang2 NOT IN (SELECT DISTINCT country_code FROM product_translations WHERE products.sku = product_translations.product_sku)";
 
-
         // select * from product_translations as a, product_translations as b
         // where a.country_code = 'dk'
+        // and b.country_code = 'dk'
         // and a.product_sku = b.product_sku
         // and not exists (select title from product_translations
         //                 where country_code = 'se'
         //                 and product_sku = a.product_sku)
         // limit 1;
 
+        // select * from product_translations as a
+        // where a.country_code = 'dk'
+        // and not exists (select title from product_translations as b
+        //                 where b.country_code = 'se'
+        //                 and b.product_sku = a.product_sku)
+        // limit 1;
 
-        $sql = "select * from product_translations as a, product_translations as b ";
+        $sql = "select * from product_translations as a ";
         $sql .= "where a.country_code = 'dk' ";
-        $sql .= "and b.country_code = 'dk' ";
-        $sql .= "and a.product_sku = b.product_sku ";
-        $sql .= "and not exists (select title from product_translations ";
-        $sql .=                 "where country_code = :user_lang ";
-        $sql .=                 "and product_sku = a.product_sku) ";
-        // $sql .= "limit 1";
+        $sql .= "and not exists (select title from product_translations as b ";
+        $sql .=                 "where b.country_code = :user_lang ";
+        $sql .=                 "and b.product_sku = a.product_sku) ";
+        $sql .= "limit 1";
 
-
-        // dd($sql);
         $user_lang = Auth::user()->country_code;
         $products = DB::select($sql, ['user_lang' => $user_lang]);
 

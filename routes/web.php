@@ -78,10 +78,6 @@ Route::get('/translate', 'TranslationController@index')
     ->name('product.translate')
     ->middleware('auth');
 
-// Route::post('/translate', 'TranslationController@edit')
-//     ->name('product.translate')
-//     ->middleware('auth');
-
 Route::post('/translate', 'TranslationController@store')
     ->name('product.translate')
     ->middleware('auth');

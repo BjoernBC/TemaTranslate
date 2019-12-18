@@ -11,7 +11,7 @@
 
         <main class="py-4">
             <div class="container">
-                <div class="page-header">
+                    <div class="page-header">
                     <h1>@yield('title')</h1>
                 </div>
                 @yield('content')
